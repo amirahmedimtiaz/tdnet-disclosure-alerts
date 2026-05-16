@@ -38,14 +38,17 @@ def fetch_disclosures(stock_code, date_str):
     results = []
     if not table:
         return results
-        
+
     rows = table.find_all('tr')
     for row in rows:
         cols = row.find_all('td')
         if len(cols) >= 4:
+            code = cols[1].get_text(strip=True)
+            if code != stock_code:
+                continue
             results.append({
                 "time": cols[0].get_text(strip=True),
-                "code": cols[1].get_text(strip=True),
+                "code": code,
                 "company": cols[2].get_text(strip=True),
                 "title": cols[3].get_text(strip=True)
             })
