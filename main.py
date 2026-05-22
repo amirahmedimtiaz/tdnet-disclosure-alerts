@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # Configuration
-STOCK_CODES = ["441a", "1450"]
+STOCK_CODES = ["441a", "1450", "6658"]
 TDNET_URL = "https://www.release.tdnet.info/onsf/TDJFSearch/TDJFSearch"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
