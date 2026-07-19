@@ -50,11 +50,14 @@ def fetch_disclosures(stock_code, date_str):
         cols = row.find_all('td')
         if len(cols) >= 4:
             code = cols[1].get_text(strip=True)
+            link_tag = cols[3].find('a')
+            url = "https://www.release.tdnet.info" + link_tag['href'] if link_tag and link_tag.get('href') else ""
             results.append({
                 "time": cols[0].get_text(strip=True),
                 "code": code,
                 "company": cols[2].get_text(strip=True),
-                "title": cols[3].get_text(strip=True)
+                "title": cols[3].get_text(strip=True),
+                "url": url
             })
     return results
 
@@ -79,6 +82,7 @@ def send_email(all_results):
         body += f"Time: {item['time']}\n"
         body += f"Company: {item['company']} ({item['code']})\n"
         body += f"Title: {item['title']}\n"
+        body += f"Link: {item['url']}\n"
         body += "-" * 30 + "\n"
 
     msg.attach(MIMEText(body, 'plain'))
