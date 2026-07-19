@@ -7,6 +7,12 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 # Configuration
 STOCK_CODES = ["441a", "1450", "6658"]
 TDNET_URL = "https://www.release.tdnet.info/onsf/TDJFSearch/TDJFSearch"
@@ -44,8 +50,6 @@ def fetch_disclosures(stock_code, date_str):
         cols = row.find_all('td')
         if len(cols) >= 4:
             code = cols[1].get_text(strip=True)
-            if code != stock_code:
-                continue
             results.append({
                 "time": cols[0].get_text(strip=True),
                 "code": code,
