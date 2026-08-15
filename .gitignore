@@ -2,7 +2,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 .env
+.env.*
+!.env.example
 .venv
 env/
 venv/
 ENV/
+.pytest_cache/
+.ruff_cache/
+.coverage

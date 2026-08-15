@@ -1,24 +1,18 @@
-name: Daily TDnet Check
+name: CI
 
 on:
-  schedule:
-    - cron: '5 15 * * *'  # 15:05 UTC = 00:05 JST
-  workflow_dispatch:
-    inputs:
-      report_date:
-        description: "Optional YYYYMMDD date to re-run; blank means yesterday in JST"
-        required: false
-        type: string
+  push:
+  pull_request:
 
 permissions:
   contents: read
 
 concurrency:
-  group: tdnet-disclosure-alert
-  cancel-in-progress: false
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  check-disclosures:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -49,14 +43,3 @@ jobs:
 
       - name: Run tests
         run: python -m unittest -v
-
-      - name: Run script
-        env:
-          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          SMTP_FROM: ${{ secrets.SMTP_FROM }}
-          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
-          TDNET_REPORT_DATE: ${{ inputs.report_date }}
-        run: python main.py
