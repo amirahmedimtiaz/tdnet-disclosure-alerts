@@ -6,4 +6,4 @@ python-dotenv==1.2.2
 requests==2.34.2
 soupsieve==2.9.2
 typing-extensions==4.16.0
-urllib3==2.7.0
+urllib3==2.8.0
